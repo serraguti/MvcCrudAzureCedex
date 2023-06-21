@@ -4,10 +4,10 @@
     ViewData["Title"] = "DepartamentosServidor";
 }
 
-<h1>DepartamentosServidor</h1>
+<h1>Departamentos Servidor</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-controller="Departamentos">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -37,9 +37,12 @@
                 @Html.DisplayFor(modelItem => item.Localidad)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-controller="Departamentos"
+                    asp-action="Edit" asp-route-id="@item.IdDepartamento"
+                    class="btn btn-info">Edit</a>
+                <a asp-controller="Departamentos"
+                    asp-action="Delete" asp-route-id="@item.IdDepartamento"
+                    class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }
