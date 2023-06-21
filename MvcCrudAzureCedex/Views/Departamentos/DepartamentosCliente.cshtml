@@ -1,0 +1,45 @@
+﻿<h1 style="color:red">
+    Departamentos JQUERY
+</h1>
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $("#botoncargar").click(function() {
+                console.log("Pulsando boton");
+                var urlApi = "https://apicrudazurecedex2023.azurewebsites.net/api/departamentos";
+                $.ajax({
+                    url: urlApi,
+                    method: "GET",
+                    success: function(data){
+                        console.log("Leyendo...");
+                        var html = "";
+                        $.each(data, function(index, dept){
+                            html += "<tr>";
+                            html += "<td>" + dept.idDepartamento + "</td>";
+                            html += "<td>" + dept.nombre + "</td>";
+                            html += "<td>" + dept.localidad + "</td>";
+                            html += "</tr>";
+                        })
+                        $("#tabladept tbody").html(html);
+                    }
+                })
+            });
+        });
+    </script>
+}
+
+<button id="botoncargar" class="btn btn-info">
+    Cargar departamentos
+</button>
+
+<table class="table table-warning" id="tabladept">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>NOMBRE</th>
+            <th>LOCALIDAD</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
