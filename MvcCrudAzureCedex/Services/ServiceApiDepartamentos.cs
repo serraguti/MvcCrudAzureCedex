@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Web;
 
 namespace MvcCrudAzureCedex.Services
 {
@@ -24,17 +25,22 @@ namespace MvcCrudAzureCedex.Services
         {
             using (HttpClient client = new HttpClient())
             {
+                //DEBEMOS ENVIAR UNA CADENA VACIA AL FINAL DEL REQUEST
+                var queryString = HttpUtility.ParseQueryString(string.Empty);
                 //NECESITAMOS LA PETICION
-                string request = "/api/departamentos";
-                //LA PETICION NECESITA UNA URL DE BASE
-                client.BaseAddress = new Uri(this.UrlApi);
+                string request = "/api/departamentos?" + queryString;
+                //NO PODEMOS LLAMAR CON BASE URL
+                string urlBase = this.UrlApi + request;
                 //LIMPIAMOS LAS CABECERAS
                 client.DefaultRequestHeaders.Clear();
                 //TIPO DE DATOS A CONSUMIR
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
+                //DEBEMOS INDICAR QUE NO UTILIZAMOS CACHE EN LAS PETICIONES
+                client.DefaultRequestHeaders.CacheControl =
+                    CacheControlHeaderValue.Parse("no-cache");
                 //REALIZAMOS LA PETICION
                 HttpResponseMessage response =
-                    await client.GetAsync(request);
+                    await client.GetAsync(urlBase);
                 //COMPROBAMOS SI LA PETICION ES CORRECTA
                 if (response.IsSuccessStatusCode)
                 {
